@@ -36,5 +36,7 @@ pollutantmean <- function( directory, pollutant, id =1:332 )
   }
 
   setwd( workdir )
-  c( mean( meanData ) ) # Generate result
+  result <- round( c( mean( meanData ) ), 3 ) # Generate result
+  
+  print( result )
 }
