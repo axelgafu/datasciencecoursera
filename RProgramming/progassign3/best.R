@@ -1,6 +1,9 @@
 #' The current .R file contains a functions that identifies the best hospital
 #' based on the statistics selected. See more details in:
 #'     https://d396qusza40orc.cloudfront.net/rprog%2Fdoc%2FProgAssignment3.pdf
+#'     
+#' Requires "outcome-of.care.measures.csv" is in the same directory where the
+#' R script is called from.
 #' 
 #' @author Axel Garcia.
 # Setup the list of opctions for the outcome.
@@ -38,7 +41,7 @@ best <- function( state, outcome )
     outcome <- tolower( outcome )
     
     ## Check that state and outcome are valid
-    if( nchar( state ) > 2 || state %in% data[,"State"] )
+    if( nchar( state ) < 2 || state %in% data[,"State"] )
     {
         stateL <- data[, "State" ] == state
         data <- data[stateL,]
@@ -80,18 +83,12 @@ best <- function( state, outcome )
 #' TBA
 #' 
 #' @export
-validData <- function( data )
+validData <- function( data, outcome )
 {
-    aux <- data[, toString( best_outopt[ "heart attack" ] ) ]
-    heartAttkL <- aux !="Not Available" & !is.na( aux )
+    aux <- data[, outcome ]
+    validDataL <- aux !="Not Available" & !is.na( aux )
     
-    aux <- data[, toString( best_outopt[ "heart failure" ] ) ]
-    heartFailL <- aux !="Not Available" & !is.na( aux )
-    
-    aux <- data[, toString( best_outopt[ "pneumonia" ] ) ]
-    pneumoniaL <- aux !="Not Available" & !is.na( aux )
-    
-    data <- data[ heartAttkL&heartFailL&pneumoniaL, ]
+    data <- data[ validDataL, ]
     
     data
 }

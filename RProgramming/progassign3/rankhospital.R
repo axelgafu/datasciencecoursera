@@ -47,7 +47,7 @@ rankhospital <- function(state, outcome, num = "best")
     outcome <- tolower( outcome )
     
     ## Check that state and outcome are valid
-    if( nchar( state ) > 2 || state %in% data[,"State"] )
+    if( nchar( state ) < 2 || state %in% data[,"State"] )
     {
         stateL <- data[, "State" ] == state
         data <- data[stateL,]
